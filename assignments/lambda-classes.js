@@ -7,7 +7,7 @@ class Person {
     this.location = props.location;
   }
   speak() {
-    return `Hello my name is ${this.name}, I am from ${this.location}`;
+    console.log(`Hello my name is ${this.name}, I am from ${this.location}.`);
   }
 }
 
@@ -19,10 +19,14 @@ class Instructor extends Person {
     this.catchPhrase = props.catchPhrase;
   }
   demo(subject) {
-    return `Today we are learning about ${subject}`;
+    console.log(`Today we are learning about ${subject}.`);
   }
-  grade(student, subject) {
-    return `${student} receives a perfect score on ${subject}`;
+  grade(Student, subject) {
+    console.log(`${Student.name} receives a perfect score on ${subject}.`);
+  }
+  gradecreator(Student, grade) {
+    var plusOrMinus = Math.random() < 0.5 ? -Math.abs(grade) : grade;
+    return Student.grade - plusOrMinus;
   }
 }
 
@@ -32,15 +36,23 @@ class Student extends Person {
     this.previousBackground = props.previousBackground;
     this.className = props.className;
     this.favSubjects = props.favSubjects;
+    this.grade = props.grade;
   }
   listsSubjects() {
-    return this.favSubjects;
+    this.favSubjects.forEach(subject => console.log(subject));
   }
   PRAssignment(subject) {
-    return `${this.name} has submitted a PR for ${subject}`;
+    console.log(`${this.name} has submitted a PR for ${subject}.`);
   }
   sprintChallenge(subject) {
-    return `${this.name} has begun sprint challenge on ${subject}`;
+    console.log(`${this.name} has begun sprint challenge on ${subject}.`);
+  }
+  graduate() {
+    if (this.grade >= 70) {
+      return "Ready to graduate from Lambda School!";
+    } else {
+      return "Not ready to graduate. Need to work harder!";
+    }
   }
 }
 
@@ -51,10 +63,12 @@ class ProjectManager extends Instructor {
     this.favInstructor = props.favInstructor;
   }
   standUp(channel) {
-    return `${this.name} announces to ${channel} @channel standby times!`;
+    console.log(
+      `${this.name} announces to ${channel}, @channel standby times!`
+    );
   }
-  debugsCode(student, subject) {
-    return `${this.name} debugs ${student}'s code on ${subject}`;
+  debugsCode(Student, subject) {
+    console.log(`${this.name} debugs ${Student.name}'s code on ${subject}.`);
   }
 }
 
@@ -72,7 +86,17 @@ const dora = new Student({
   location: "New York City",
   previousBackground: "social sciences",
   className: "Web21",
-  favSubjects: ["Data Sctructures", "Algorithms", "HTML and CSS"]
+  favSubjects: ["Data Sctructures", "Algorithms", "HTML and CSS"],
+  grade: 90
+});
+
+const strugglingstudent = new Student({
+  name: "Thomas",
+  location: "SF",
+  previousBackground: "CS Student at Stanford",
+  className: "Web21",
+  favSubjects: ["Compilers", "AI", "Machine Learning"],
+  grade: 60
 });
 
 const henry = new ProjectManager({
@@ -82,13 +106,36 @@ const henry = new ProjectManager({
   favInstructor: "Everyone"
 });
 
-console.log(fred.speak());
-console.log(fred.demo("JavaScript"));
-console.log(fred.grade("Dora", "HTML"));
-console.log(dora.listsSubjects());
-console.log(dora.PRAssignment("JavaScript"));
-console.log(dora.sprintChallenge("Intro to JavaScript"));
+const austin = new ProjectManager({
+  name: "Austin",
+  age: "23",
+  gradClassName: "WEB18",
+  favInstructor: "Josh knell",
+  location: "Somewhere",
+  specialty: "Java",
+  favLanguage: "Java",
+  catchPhrase: ":eggplant:"
+});
+
+fred.speak();
+fred.demo("JavaScript");
+fred.grade(dora, "HTML");
+dora.listsSubjects();
+dora.PRAssignment("JavaScript");
+dora.sprintChallenge("Intro to JavaScript");
 
 console.log(henry.gradClassName);
-console.log(henry.standUp("web21_henry"));
-console.log(henry.debugsCode("Dakota", "JavaScript"));
+henry.standUp("web21_henry");
+henry.debugsCode(dora, "JavaScript");
+console.log(austin.favInstructor);
+console.log(austin.specialty);
+console.log(fred.gradecreator(dora, 6));
+console.log(dora.graduate());
+console.log(strugglingstudent.grade);
+
+console.log(strugglingstudent.graduate());
+while (strugglingstudent.grade < 70) {
+  var grade = fred.gradecreator(strugglingstudent, 5);
+  strugglingstudent.grade = grade;
+  console.log(strugglingstudent.graduate());
+}
