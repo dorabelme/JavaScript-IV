@@ -30,10 +30,29 @@ class Instructor extends Person {
   }
 
   demo(subject) {
-    return `Today we are learning about ${this.subject}`;
+    console.log(`Today we are learning about ${this.subject}`);
   }
 
   grade(student) {
-    return `${this.student} receives a perfect score on ${this.subject}`;
+    console.log(`${this.student} receives a perfect score on ${this.subject}`);
+  }
+}
+
+class Student extends Person {
+  constructor(props) {
+    super(props);
+    this.previousBackground = props.previousBackground;
+    this.className = props.className;
+    this.favSubjects = props.favSubjects;
+  }
+
+  listsSubjects() {
+    this.favSubjects.map(subject => console.log(subject));
+  }
+
+  PRAssignment(subject) {
+    console.log(
+      `${this.student.name} has begun sprint challenge on ${this.subject}`
+    );
   }
 }
